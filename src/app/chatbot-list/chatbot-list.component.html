@@ -1,0 +1,61 @@
+
+
+   <div class="container mx-auto px-4 py-8">
+    <div class="space-y-6">
+      <div class="flex flex-col sm:flex-row justify-between items-center">
+        <h2 class="text-2xl font-bold mb-4 sm:mb-0">Your Chatbots</h2>
+        <button (click)="logout1()" class="btn btn-primary w-full sm:w-auto">Log Out</button>
+      </div>
+      
+      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div *ngFor="let chatbot of chatbots" class="border p-4 rounded shadow-md">
+          <h3 class="text-xl font-semibold mb-3">{{ chatbot.name }}</h3>
+          <div class="flex flex-wrap gap-2">
+            <button (click)="showTrainForm(chatbot)" class="btn btn-primary">Train</button>
+            <button (click)="deleteChatbot(chatbot.id)" class="btn btn-danger">Delete</button>
+            <button (click)="generateCode(chatbot.id)" class="btn btn-info">Integration Code</button>
+            <a [routerLink]="['/chat', chatbot.id]" class="btn btn-success">Chat</a>
+          </div>
+          <span *ngIf="chatbot.trainedFile" class="badge badge-info mt-2 block">
+            Trained with: {{ chatbot.trainedFile }}
+          </span>
+        </div>
+      </div>
+      
+      <button (click)="createChatbot()" class="btn btn-primary w-full sm:w-auto">Create New Chatbot</button>
+    </div>
+  
+    <!-- Train Form Modal -->
+    <div *ngIf="showForm" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900 bg-opacity-75">
+      <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+        <h3 class="text-lg font-bold mb-4">Train Chatbot</h3>
+        <form (ngSubmit)="onTrainSubmit()">
+          <div class="mb-4">
+            <label for="apiUrl" class="block text-sm font-medium text-gray-700 mb-1">API URL</label>
+            <input id="apiUrl" type="text" [(ngModel)]="apiUrl" name="apiUrl" class="w-full border border-gray-300 rounded-md p-2">
+          </div>
+          <div class="mb-4">
+            <label for="pdfFile" class="block text-sm font-medium text-gray-700 mb-1">Upload PDF</label>
+            <input id="pdfFile" type="file" (change)="onFileSelected($event)" class="w-full border border-gray-300 rounded-md p-2">
+          </div>
+          <div class="flex justify-end gap-2">
+            <button type="button" (click)="hideForm()" class="btn btn-secondary">Cancel</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  
+    <!-- Integration Code Modal -->
+    <div *ngIf="integrationCode" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900 bg-opacity-75">
+      <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-2xl">
+        <h3 class="text-lg font-bold mb-4">Integration Code , add it to any place in your html code for your website</h3>
+        <div class="overflow-y-auto max-h-[60vh] overflow-x-auto custom-scrollbar">
+          <pre class=" p-4 rounded "><code>{{ integrationCode }}</code></pre>
+        </div>
+        <div class="flex justify-end mt-4">
+          <button (click)="clearIntegrationCode()" class="btn btn-secondary">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>

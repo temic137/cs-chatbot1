@@ -1,0 +1,18 @@
+<div class="max-w-2xl mx-auto">
+  <h2 class="text-2xl font-bold mb-4">Chat with {{ chatbotName }}</h2>
+  <div class="border rounded p-4 h-96 overflow-y-auto mb-4">
+    <div *ngFor="let message of messages" class="mb-2">
+      <div [ngClass]="{'text-right bg-blue': message.sender === 'user'}">
+        <span class="px-3 py-2 rounded" [ngClass]="{'': message.sender === 'user', '': message.sender === 'bot'}">
+          {{ message.text }}
+        </span>
+      </div>
+    </div>
+  </div>
+  <form (ngSubmit)="sendMessage()" class="flex">
+    <input type="text" [(ngModel)]="currentMessage" name="message" class="flex-grow px-3 py-2 border rounded-l" placeholder="Type your message...">
+    <button type="submit" class="bg-black text-white px-4 py-2 rounded-r">Send</button>
+  </form>
+  <br/>
+ <button class='bg-black text-white px-4 py-2 rounded-r'> <a [routerLink]="['/chatbots']"> Your Chatbots</a> </button>
+</div>
